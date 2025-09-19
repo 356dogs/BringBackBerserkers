@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net48</TargetFramework>
+		<LangVersion>10</LangVersion>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<NoStdLib>true</NoStdLib>
+		<NoConfig>true</NoConfig>
+		<PreserveCompilationContext>false</PreserveCompilationContext>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<NoWarn>MSB3277</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Reference Include="libs\*.dll">
+			<Private>false</Private>
+		</Reference>
+	</ItemGroup>
+	
+	<Target Name="MakeModFolder" AfterTargets="Build">
+		<GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+			<Output TaskParameter="Assemblies" ItemName="PluginIdentities" />
+		</GetAssemblyIdentity>
+
+		<Copy SourceFiles="$(TargetPath)" DestinationFolder="..\$(ProjectName)+%(PluginIdentities.Version)\plugins" />
+	</Target>
+
+</Project>
